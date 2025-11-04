@@ -95,7 +95,7 @@ export default function Text_Agent() {
         const updatedSession = {
             ...activeSession,
             title: newTitle,
-            messages: [...activeAcsession.messages, newMessage],
+            messages: [...activeSession.messages, newMessage],
         };
 
         setActiveSession(updatedSession);
