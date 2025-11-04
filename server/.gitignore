@@ -1,6 +1,6 @@
 # Environment variables
 # crucial for keeping API keys and secrets safe
-.env
+# .env
 
 # Python cache
 __pycache__/
