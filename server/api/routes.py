@@ -5,6 +5,10 @@ from google.genai import types
 # Create a 'Blueprint'
 api_bp = Blueprint("api", __name__)
 
+@api_bp.route("/status", methods=["GET"])
+def status():
+    return jsonify({"status": "ok"}), 200
+
 # --- Cached Clients ---
 _client = None
 _model_default = None

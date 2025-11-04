@@ -35,12 +35,16 @@ export default function Home() {
   useEffect(() => {
     const checkServer = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, { cache: "no-store" });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/status`, { cache: "no-store" });
         if (res.ok) {
-          setServerReady(true);
-          setLoading(false);
-        } else {
+          const data = await res.json();
+          if (data.status === "ok") {
+            setServerReady(true);
+            setLoading(false);
+            return;
+          }
           setTimeout(checkServer, 2000);
+
         }
       } catch (error) {
         setTimeout(checkServer, 2000);
