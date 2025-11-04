@@ -58,7 +58,6 @@ export default function Text_Agent() {
         } else {
             handleNewChat();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
