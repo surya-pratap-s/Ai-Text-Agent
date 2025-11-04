@@ -11,7 +11,7 @@ export default function Header() {
     return (
         <header className=" fixed top-0 left-0 w-full flex items-center justify-between px-6 py-4 border-b border-white/20 dark:border-gray-700/30 bg-white/30 dark:bg-gray-900/30 backdrop-blur-lg backdrop-saturate-150 shadow-sm z-50 transition-all duration-300 ">
             <Link href="/" className="font-bold text-xl text-gray-900 dark:text-gray-100 tracking-wide">
-                AI Agent
+                AI Agent <span className="text-sm">{session?.user?.name}</span>
             </Link>
 
 
