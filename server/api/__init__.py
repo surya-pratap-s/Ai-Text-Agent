@@ -12,7 +12,7 @@ def create_app():
 
     # Basic configuration values stored centrally on app.config
     app.config["GEMINIAI_API_KEY"] = os.getenv("GEMINIAI_API_KEY", "")
-    app.config["GEMINI_MODEL"] = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    app.config["GEMINI_MODEL"] = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
     
     allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 
