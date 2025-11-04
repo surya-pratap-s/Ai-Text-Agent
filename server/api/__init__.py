@@ -5,39 +5,45 @@ import os
 import logging
 
 # Load environment variables from .env file into os.environ
+# This makes os.getenv() work everywhere in the app.
 load_dotenv()
 
 def create_app():
+    
     app = Flask(__name__)
 
-    # Basic configuration values stored centrally on app.config
+    # --- Configuration ---
     app.config["GEMINIAI_API_KEY"] = os.getenv("GEMINIAI_API_KEY", "")
     app.config["GEMINI_MODEL"] = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
     
+    # Load the allowed origins for CORS, splitting by comma
     allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 
-    # Configure logging (simple)
+    # --- Logging ---
     logging.basicConfig(level=logging.INFO)
     app.logger.setLevel(logging.INFO)
 
-    # Configure CORS for /api/* only, using environments
+    # --- CORS (Cross-Origin Resource Sharing) ---
     CORS(
         app,
+        # Only apply CORS rules to endpoints under /api/
         resources={r"/api/*": {"origins": allowed_origins}},
         supports_credentials=True,
-        methods=["GET", "POST", "OPTIONS"]
+        methods=["GET", "POST", "OPTIONS"] # Allow these methods
     )
 
-    # Register API blueprint
+    # --- Blueprints ---
+    # Register the API routes defined in routes.py
+    # All routes in that file will be prefixed with /api
     from .routes import api_bp
     app.register_blueprint(api_bp, url_prefix="/api")
 
-    # Root - simple health / welcome endpoint
+    # --- Root Endpoint ---
     @app.route("/")
     def root():
         return jsonify({"message": "Hello, Guest! Welcome to AI Agent API."}), 200
 
-    # Basic check to ensure API key is present (app start warning)
+    # --- Startup Check ---
     if not app.config["GEMINIAI_API_KEY"]:
         app.logger.warning("GEMINIAI_API_KEY is not set. AI endpoints will fail without it.")
 

@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { useTheme } from "next-themes";
-import { Moon, Sun, Menu, LogOut, LogIn } from "lucide-react";
+import { Menu, LogOut, LogIn } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
-    const { theme, setTheme } = useTheme();
     const { data: session } = useSession();
 
     return (
@@ -28,15 +27,8 @@ export default function Header() {
                     </button>
 
                 )}
-                <button
-                    onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                    className="p-2 rounded-full bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-700/40 backdrop-blur-md transition" title="Toggle Theme" >
-                    {theme === "dark" ? (
-                        <Sun size={18} className="text-yellow-400" />
-                    ) : (
-                        <Moon size={18} className="text-blue-500" />
-                    )}
-                </button>
+
+                <ThemeToggle />
 
                 <button id="drawer-toggle" className="p-2 rounded-full bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-700/40 backdrop-blur-md transition" title="Open Menu" >
                     <Menu size={18} className="text-gray-800 dark:text-gray-200" />

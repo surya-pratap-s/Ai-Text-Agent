@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -14,6 +15,17 @@ export default function AgriAIChat() {
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
     const [loading, setLoading] = useState(false);
+
+    // --- New additions for auto-scroll ---
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]); // Runs every time the 'messages' array changes
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -51,7 +63,10 @@ export default function AgriAIChat() {
     return (
         <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
             {/* Header */}
-            <header className="p-4 bg-green-700 text-white text-center font-semibold shadow-md">🌾 Agriculture AI Assistant</header>
+            <header className="px-4 py-3 flex bg-gray-100 dark:bg-gray-800 text-center justify-between font-semibold shadow-md">
+                <span className="text-green-800 dark:text-white">🌾 Agriculture AI Assistant</span>
+                <ThemeToggle/>
+            </header>
 
             {/* Chat area */}
             <main className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -79,6 +94,9 @@ export default function AgriAIChat() {
                         </div>
                     </div>
                 ))}
+
+                {/* --- New empty div for auto-scroll target --- */}
+                <div ref={messagesEndRef} />
             </main>
 
             {/* Input Box */}
