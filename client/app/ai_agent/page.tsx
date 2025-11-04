@@ -36,7 +36,7 @@ export default function AgriAIChat() {
         setLoading(true);
 
         try {
-            const res = await fetch(`${API_URL}/ask`, {
+            const res = await fetch(`${API_URL}/api/ask`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query: input }),
