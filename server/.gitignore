@@ -1,0 +1,16 @@
+# Environment variables
+# crucial for keeping API keys and secrets safe
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+# Common names for virtual environment folders
+venv/
+.venv/
+
+# IDE settings
+.vscode/
+.idea/
