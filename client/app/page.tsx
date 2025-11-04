@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import { Brain, Code2, Lock } from "lucide-react";
 import RightDrawer from "@/components/RightDrawer";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
 const services = [
   {
@@ -27,6 +29,30 @@ const services = [
 
 export default function Home() {
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
+  const [serverReady, setServerReady] = useState(false);
+
+  useEffect(() => {
+    const checkServer = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, { cache: "no-store" });
+        if (res.ok) {
+          setServerReady(true);
+          setLoading(false);
+        } else {
+          setTimeout(checkServer, 2000);
+        }
+      } catch (error) {
+        setTimeout(checkServer, 2000);
+      }
+    };
+
+    checkServer();
+  }, []);
+
+  if (loading || !serverReady) {
+    return <Loader />;
+  }
 
   return (<>
     <SEO
